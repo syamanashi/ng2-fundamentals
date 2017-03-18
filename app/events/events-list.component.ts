@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './app/events/events-list.component.html'
 })
 export class EventsListComponent {
-  event = {
+  event01 = {
         id: 1,
         name: 'Random Angular Event',
         date: '1/1/2017',
