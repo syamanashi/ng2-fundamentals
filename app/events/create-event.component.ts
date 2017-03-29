@@ -16,9 +16,26 @@ import { EventService } from './shared/event.service'
 })
 export class CreateEventComponent {
   isDirty:boolean = true
-  
+  event:any
+
   constructor(private router:Router, private eventService:EventService) {
 
+  }
+
+  ngOnInit() {
+    this.event = {
+      name: 'Some NG Event',
+      date: '1/1/2018',
+      time: '11am',
+      price: 199.99,
+      location: {
+        address: '777 Lucky Lane',
+        city: 'Charlotte, NC',
+        country: 'USA'
+      },
+      onlineUrl: 'http://www.ngeverywhere.com',
+      imageUrl: 'http://www.pngmart.com/files/1/Cat-PNG-Picture.png'
+    }
   }
 
   saveEvent(formValues) {
