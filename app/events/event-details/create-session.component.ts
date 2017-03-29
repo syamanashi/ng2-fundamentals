@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, Output, EventEmitter } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { ISession, restrictedWords } from '../shared/index'
 
@@ -15,6 +15,8 @@ import { ISession, restrictedWords } from '../shared/index'
   `]
 })
 export class CreateSessionComponent implements OnInit {
+
+  @Output() saveNewSession = new EventEmitter()
 
   newSessionForm: FormGroup
   name: FormControl
@@ -43,13 +45,14 @@ export class CreateSessionComponent implements OnInit {
     let session: ISession = {
       id: undefined,
       name: formValues.name,
-      duration: +formValues.duraction,
+      duration: +formValues.duration,
       level: formValues.level,
       presenter: formValues.presenter,
       abstract: formValues.abstract,
       voters: []
     }
-    console.log(session)
+    // emit an output parameter for the parent component (EventDetailsComponent) to bind to.
+    this.saveNewSession.emit(session)
   }
 
 }

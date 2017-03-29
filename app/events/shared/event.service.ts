@@ -17,11 +17,18 @@ export class EventService {
     return EVENTS.find(event => event.id === id) 
   }
 
+  // save new events here: 
   saveEvent(event) {
     // console.log(formValues)
     event.id = 999
     event.sessions = []
     EVENTS.push(event)
+  }
+
+  // update existing events here
+  updateEvent(event) {
+    let index = EVENTS.findIndex(x => x.id = event.id)
+    EVENTS[index] = event
   }
 }
 
