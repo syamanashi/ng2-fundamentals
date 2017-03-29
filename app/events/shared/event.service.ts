@@ -15,18 +15,13 @@ export class EventService {
 
   getEvent(id:number):IEvent {
     return EVENTS.find(event => event.id === id) 
+  }
 
-/*
-SHORT HAND FOR:
-
-    return getMatchedEvent(EVENTS)
-
-    getMatchedEvent(event) {
-      return event.id === id
-    }
-
-*/
-
+  saveEvent(event) {
+    // console.log(formValues)
+    event.id = 999
+    event.sessions = []
+    EVENTS.push(event)
   }
 }
 

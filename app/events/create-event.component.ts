@@ -1,6 +1,8 @@
 import { Component } from '@angular/core'
 import { Router } from '@angular/router'
 
+import { EventService } from './shared/event.service'
+
 @Component({
   templateUrl: 'app/events/create-event.component.html',
     styles: [`
@@ -15,12 +17,18 @@ import { Router } from '@angular/router'
 export class CreateEventComponent {
   isDirty:boolean = true
   
-  constructor(private router:Router) {
+  constructor(private router:Router, private eventService:EventService) {
 
   }
 
   saveEvent(formValues) {
-    console.log(formValues)
+    // Call the eventService to save our event.
+    //      Pass formValues straight through since the shape of it exactly our event model.
+    this.eventService.saveEvent(formValues)
+    // set isDirty to false to navigate the Route Guard rules.
+    this.isDirty = false
+    // Navigate to the All Events page after eventService.saveEvent is called.
+    this.router.navigate(['/events'])
   }
 
   cancel() {
