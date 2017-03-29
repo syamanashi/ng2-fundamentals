@@ -27,7 +27,7 @@ export class CreateSessionComponent implements OnInit {
     this.presenter = new FormControl('', Validators.required)
     this.duration = new FormControl('', Validators.required)
     this.level = new FormControl('', Validators.required)
-    this.abstract = new FormControl('', [Validators.required, Validators.maxLength(400), this.restrictedWords])
+    this.abstract = new FormControl('', [Validators.required, Validators.maxLength(400), this.restrictedWords(['foo', 'bar'])])
 
     this.newSessionForm = new FormGroup({
       name: this.name,
@@ -38,15 +38,22 @@ export class CreateSessionComponent implements OnInit {
     })
   }
 
-  // restrictedWords takes in a FormControl and returns an object:
-  private restrictedWords(control: FormControl): {[key: string]: any} {
-    
-    // If controls value contains the word 'foo', then it is invalid and return the error object, typically with a key that matches the validator name.
-    // Otherwise, it returns null.
-    return control.value.includes('foo')
-        ? {'restrictedWords': 'foo'}
-        : null
+  // restrictedWords takes in a FormControl and returns a function that object:
+  private restrictedWords(words) {
+    return (control: FormControl): { [key: string]: any } => {
+      
+      // if no words are passed in, everything is valid. Return null.
+      if (!words) return null
 
+      // The following .map() function loops through all restricted key words and checks our controls.value to see if it contains that word.  If found, return the word or return null if it's not found.
+      //    Then, we'll just need to filter out these nulls.
+      var invalidWords = words.map(w => control.value.includes(w) ? w : null)
+                              .filter(w => w != null)
+
+      return invalidWords && invalidWords.length > 0
+        ? { 'restrictedWords': invalidWords.join(', ') }
+        : null
+    }
   }
 
   saveSession(formValues) {
