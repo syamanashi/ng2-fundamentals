@@ -36,5 +36,9 @@ export class EventDetailsComponent {
     this.addMode = false // displays the session list again.
   }
 
+  cancelAddSession() {
+    this.addMode = false
+  }
+
 
 }
