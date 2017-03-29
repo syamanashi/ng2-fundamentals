@@ -27,7 +27,7 @@ export class CreateSessionComponent implements OnInit {
     this.presenter = new FormControl('', Validators.required)
     this.duration = new FormControl('', Validators.required)
     this.level = new FormControl('', Validators.required)
-    this.abstract = new FormControl('', [Validators.required, Validators.maxLength(400)])
+    this.abstract = new FormControl('', [Validators.required, Validators.maxLength(400), this.restrictedWords])
 
     this.newSessionForm = new FormGroup({
       name: this.name,
@@ -36,6 +36,17 @@ export class CreateSessionComponent implements OnInit {
       level: this.level,
       abstract: this.abstract
     })
+  }
+
+  // restrictedWords takes in a FormControl and returns an object:
+  private restrictedWords(control: FormControl): {[key: string]: any} {
+    
+    // If controls value contains the word 'foo', then it is invalid and return the error object, typically with a key that matches the validator name.
+    // Otherwise, it returns null.
+    return control.value.includes('foo')
+        ? {'restrictedWords': 'foo'}
+        : null
+
   }
 
   saveSession(formValues) {
