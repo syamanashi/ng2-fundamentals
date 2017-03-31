@@ -50,7 +50,7 @@ declare let toastr: Toastr
         { provide: TOASTR_TOKEN, useValue: toastr }, // => useExisting Alias Provider exampple: { provider: TOASTR_TOKEN, useExisting: toastr }
         EventRouteActivator, // => Shorthand for { provide: EventRouteActivator, useClass: EventRouteActivator } where provide sets the token.
         EventListResolver, // => You could send a different service/class in the longhand syntax like this { provide: EventListResolver, useClass: EventService }
-        AuthService,
+        AuthService,  // => If you instead want to pass a function that is a factory which could parameterize the creation of a class: { provide: AuthService, useFactory: factory() }
         { provide: 'canDeactivateCreateEvent', useValue: checkDirtyState },
     ],
     bootstrap: [
