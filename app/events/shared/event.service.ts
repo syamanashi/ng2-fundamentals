@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core'
+import { Injectable, EventEmitter } from '@angular/core'
 import { Subject, Observable } from 'rxjs/Rx'
-import { IEvent } from './event.model'
+import { IEvent, ISession } from './event.model'
 
 @Injectable()
 export class EventService {
@@ -30,6 +30,42 @@ export class EventService {
     let index = EVENTS.findIndex(x => x.id = event.id)
     EVENTS[index] = event
   }
+
+
+  searchSessions(searchTerm:string) {
+    let term = searchTerm.toLocaleLowerCase();
+    let results: ISession[] = [];
+
+    // Loop through each event and add their matching sessions to the results array:
+    EVENTS.forEach(event => {
+
+      // Find sessions in this event whose (lower case) name contain the (lower case) search term:
+      var matchingSessions = event.sessions.filter(session => session.name.toLocaleLowerCase().indexOf(term) > -1);
+
+      // Add the Event.id of each matching session object as the eventId of the current event in our loop using a .map() method:
+      //      Note: Array.map() is a quick and easy way to add a parameter to an array of objects.
+      matchingSessions = matchingSessions.map((session:any) => {
+        // Set a new session.eventId parameter to equal the current loop event's event.id and then return the new session object:
+        session.eventId = event.id;
+        return session;
+      })
+      // Append the matching sessions for the current loop event to the results array;
+      results = results.concat(matchingSessions);
+    });
+
+    // return an Observable:
+    var emitter = new EventEmitter(true); // true tells EventEmitter to pass results asynchonously.
+
+    // Set a time out to simulate what it would be like if we were getting our data from an asynchronous server API request:
+    setTimeout(() => {
+      // Tell emitter to emit the results after delay:
+      emitter.emit(results);
+    }, 100);
+    
+    return emitter;
+  }
+
+
 }
 
 const EVENTS:IEvent[] = [
