@@ -47,7 +47,7 @@ declare let toastr: Toastr
     ],
     providers: [
         EventService,
-        { provide: TOASTR_TOKEN, useValue: toastr },
+        { provide: TOASTR_TOKEN, useValue: toastr }, // => useExisting Alias Provider exampple: { provider: TOASTR_TOKEN, useExisting: toastr }
         EventRouteActivator, // => Shorthand for { provide: EventRouteActivator, useClass: EventRouteActivator } where provide sets the token.
         EventListResolver, // => You could send a different service/class in the longhand syntax like this { provide: EventListResolver, useClass: EventService }
         AuthService,
