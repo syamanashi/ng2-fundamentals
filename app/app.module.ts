@@ -18,12 +18,13 @@ import {
 
 import { EventsAppComponent } from './events-app.component';
 import { NavBarComponent } from './nav/navbar.component';
-import { TOASTR_TOKEN, Toastr, CollapsibleWellComponent } from './common/index';
+import { TOASTR_TOKEN, Toastr, CollapsibleWellComponent, JQ_TOKEN, SimpleModalComponent } from './common/index';
 import { appRoutes } from './routes'
 import { Error404Component } from './errors/404.component'
 import { AuthService } from './user/auth.service'
 
-declare let toastr: Toastr
+declare let toastr:Toastr;
+declare let jQuery:Object;
 
 @NgModule ({
     imports: [
@@ -43,11 +44,13 @@ declare let toastr: Toastr
         CreateSessionComponent,
         SessionListComponent,
         CollapsibleWellComponent,
+        SimpleModalComponent,
         DurationPipe,
     ],
     providers: [
         EventService,
         { provide: TOASTR_TOKEN, useValue: toastr }, // => useExisting Alias Provider exampple: { provider: TOASTR_TOKEN, useExisting: toastr }
+        { provide: JQ_TOKEN, useValue: jQuery },
         EventRouteActivator, // => Shorthand for { provide: EventRouteActivator, useClass: EventRouteActivator } where provide sets the token.
         EventListResolver, // => You could send a different service/class in the longhand syntax like this { provide: EventListResolver, useClass: EventService }
         AuthService,  // => If you instead want to pass a function that is a factory which could parameterize the creation of a class: { provide: AuthService, useFactory: factory() }
